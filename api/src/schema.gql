@@ -1,0 +1,94 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Customer {
+  id: ID!
+
+  """Date and time when object was created."""
+  createdAt: Timestamp!
+
+  """Date and time when the object was updated last time."""
+  updatedAt: Timestamp!
+  email: String!
+  role: String!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type AuthOutput {
+  token: String!
+}
+
+type ActivationCode {
+  id: ID!
+
+  """Date and time when object was created."""
+  createdAt: Timestamp!
+
+  """Date and time when the object was updated last time."""
+  updatedAt: Timestamp!
+  customer: Customer!
+  activationCode: String!
+  activationDate: Timestamp
+}
+
+type Query {
+  customers(data: GetCustomerInput!): [Customer!]!
+  getCustomer(data: FindCustomerByIdOrEmail!): Customer!
+  me: Customer!
+}
+
+input GetCustomerInput {
+  cursor: String
+  skip: Int
+  take: Int
+  where: WhereCustomerInput
+}
+
+input WhereCustomerInput {
+  id: String
+  email: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
+}
+
+input FindCustomerByIdOrEmail {
+  id: String
+  email: String
+}
+
+type Mutation {
+  createCustomer(customer: CreateCustomerInput!): Customer!
+  updateCustomer(customer: UpdateCustomerInput!): Customer!
+  deleteCustomer(id: String!): Customer!
+  login(data: LoginInput!): AuthOutput!
+  signUp(data: CreateCustomerInput!): ActivationCode!
+  activate(data: ActivationInput!): ActivationCode!
+}
+
+input CreateCustomerInput {
+  email: String!
+  password: String!
+  role: String!
+}
+
+input UpdateCustomerInput {
+  id: String!
+  email: String
+  password: String
+  role: String
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input ActivationInput {
+  customerId: String!
+  activationCode: String!
+}
